@@ -82,12 +82,106 @@
   padding-top: 60px;
   padding-left: 90px;
   display: grid;
-  grid-template-areas: "cards map" "chart map";
+  grid-template-rows: 300px 400px 400px;
+  grid-template-areas: "cards" "map" "chart";
 }
 
 .cardsContainer {
-  background-color: #700d0d;
   grid-area: cards;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardsContainer .card {
+  height: 200px;
+  width: 140px;
+  background-color: #e6e6e6;
+  margin: 0px 15px 0px 15px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: #e6e6e6;
+  border: solid 3px white;
+  box-shadow: 0px 5px 20px 5px rgba(119, 119, 119, 0.3);
+}
+
+.cardsContainer .cardConfirmed {
+  background-color: #fdd8d8;
+}
+
+.cardsContainer .cardConfirmed .title {
+  font-size: 1.2em;
+  color: red;
+}
+
+.cardsContainer .cardConfirmed .change {
+  color: red;
+}
+
+.cardsContainer .cardConfirmed .value {
+  color: red;
+  font-size: 1.5em;
+  letter-spacing: -1px;
+}
+
+.cardsContainer .cardActive {
+  background-color: #c0e3ff;
+}
+
+.cardsContainer .cardActive .title {
+  font-size: 1.2em;
+  color: #0089d8;
+}
+
+.cardsContainer .cardActive .change {
+  color: #0089d8;
+}
+
+.cardsContainer .cardActive .value {
+  color: #0089d8;
+  font-size: 1.5em;
+  letter-spacing: -1px;
+}
+
+.cardsContainer .cardRecovered {
+  background-color: #afeca7;
+}
+
+.cardsContainer .cardRecovered .title {
+  font-size: 1.2em;
+  color: #00851d;
+}
+
+.cardsContainer .cardRecovered .change {
+  color: #00851d;
+}
+
+.cardsContainer .cardRecovered .value {
+  color: #00851d;
+  font-size: 1.5em;
+  letter-spacing: -1px;
+}
+
+.cardsContainer .cardDeath {
+  background-color: #cccccc;
+}
+
+.cardsContainer .cardDeath .title {
+  font-size: 1.2em;
+  color: #646464;
+}
+
+.cardsContainer .cardDeath .change {
+  color: #646464;
+}
+
+.cardsContainer .cardDeath .value {
+  color: #646464;
+  font-size: 1.5em;
+  letter-spacing: -1px;
 }
 
 .mapContainer {

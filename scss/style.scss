@@ -93,19 +93,103 @@
     padding-top: 60px;
     padding-left: 90px;
     display: grid;
+    grid-template-rows: 300px 400px 400px;
     grid-template-areas:
-    "cards map"
-    "chart map"
+    // "cards map"
+    // "chart map"
+    "cards"
+    "map"
+    "chart"
         ;
 }
 
 //**********Cards Start**********//
 
 .cardsContainer {
-    background-color: rgb(112, 13, 13);
     grid-area: cards;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    .card {
+        height: 200px;
+        width: 140px;
+        background-color: rgb(230, 230, 230);
+        margin: 0px 15px 0px 15px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction:column;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color: rgb(230, 230, 230);
+        border: solid 3px rgb(255, 255, 255);
+        box-shadow: 0px 5px 20px 5px rgba(119, 119, 119, 0.3),
+    }
+
+    .cardConfirmed {
+        background-color: #fdd8d8;
+        .title {
+            font-size: 1.2em;
+            color: red;
+        }
+        .change {
+            color: red;
+        }
+        .value {
+            color:red;
+            font-size: 1.5em;
+            letter-spacing: -1px;
+        }
+    }
+
+    .cardActive {
+        background-color: #c0e3ff;
+        .title {
+            font-size: 1.2em;
+            color: rgb(0, 137, 216);
+        }
+        .change {
+            color: rgb(0, 137, 216);
+        }
+        .value {
+            color:rgb(0, 137, 216);
+            font-size: 1.5em;
+            letter-spacing: -1px;
+        }
+    }
+
+    .cardRecovered {
+        background-color: #afeca7;
+        .title {
+            font-size: 1.2em;
+            color: rgb(0, 133, 29);
+        }
+        .change {
+            color: rgb(0, 133, 29);
+        }
+        .value {
+            color:rgb(0, 133, 29);
+            font-size: 1.5em;
+            letter-spacing: -1px;
+        }
+    }
+
+    .cardDeath {
+        background-color: #cccccc;
+        .title {
+            font-size: 1.2em;
+            color: rgb(100, 100, 100);
+        }
+        .change {
+            color: rgb(100, 100, 100);
+        }
+        .value {
+            color:rgb(100, 100, 100);
+            font-size: 1.5em;
+            letter-spacing: -1px;
+        }
+    }
+}
 //**********Cards End************//
 
 //**********Map Start**********//

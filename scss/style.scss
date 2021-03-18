@@ -15,7 +15,6 @@
     align-items: center;
     justify-content: center;
     position: fixed;
-    z-index: -1;
 
     .title {
         font-size: 1.7em;
@@ -43,20 +42,19 @@
 
 .sliderContainer{
     width: 90px;
-    height: 100vh;
+    height: 100%;
     overflow: hidden;
-    position: relative;
+    position: fixed;
     transition: all 0.5s;
+
     .sidebarContainer{
         background-color: rgb(255, 161, 161);
         height: inherit;
         width: 300px;
         padding: 50px 0px 0px 0px;
-        position: fixed;
         display: flex;
         flex-direction: column;
         justify-content: start;
-        position: absolute;
     
         .title{
             margin-left: 90px;
@@ -65,13 +63,12 @@
             font-size:1.4em;
             color:rgb(34, 34, 34)
         }
-    
+
         .sidebarItem {
             display: flex;
             align-items: center;
             color: rgb(255, 255, 255);
             font-size: 1.3em;
-            // position: absolute;
     
             .sidebarIcon {
                 height: 50px;
@@ -80,9 +77,51 @@
             }
         }
     }
+    
     &:hover {
         width: 300px;
     }
 }
 
 //**********Side Bar End*************//
+
+//**********Main Body Start**********//
+.mainBodyContainer{
+    width: 100vw;
+    height: 100vh;
+    // margin:auto;
+    padding-top: 60px;
+    padding-left: 90px;
+    display: grid;
+    grid-template-areas:
+    "cards map"
+    "chart map"
+        ;
+}
+
+//**********Cards Start**********//
+
+.cardsContainer {
+    background-color: rgb(112, 13, 13);
+    grid-area: cards;
+}
+
+//**********Cards End************//
+
+//**********Map Start**********//
+.mapContainer {
+    background-color: #333;
+    grid-area: map;
+}
+
+//**********Map End************//
+
+//**********Chart Start**********//
+.chartContainer {
+    background-color: rgb(12, 26, 109);
+    grid-area: chart;
+}
+
+//**********Chart End************//
+
+//**********Main Body End************//

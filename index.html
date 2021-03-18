@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
 
     <title>MY COVID19 TRACKER</title>
@@ -117,7 +118,9 @@
                 </g><g class="district-borders" fill="none" stroke-width="1.5"></g><g class="circles"></g></svg>
         </div>
     </div>
-    <div class="chartContainer"></div>
+    <div class="chartContainer">
+        <canvas class="covidChart"></canvas>
+    </div>
     </div>
     <!-- Main Body End -->
     <script src="script/index.js"></script>

@@ -214,7 +214,18 @@
 }
 
 .chartContainer {
-  background-color: #0c1a6d;
   grid-area: chart;
+  position: relative;
+  height: 400px;
+  width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.chartContainer .covidChart {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 20px 5px rgba(119, 119, 119, 0.3);
 }
 /*# sourceMappingURL=style.css.map */

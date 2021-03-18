@@ -2,9 +2,10 @@
   box-sizing: border-box;
   padding: 0px;
   margin: 0px;
+  font-family: 'Ubuntu', sans-serif;
 }
 
-.navigationContainer {
+.titleContainer {
   height: 60px;
   width: 100vw;
   background-color: #f1f1f1;
@@ -12,25 +13,69 @@
   align-items: center;
   justify-content: center;
   position: fixed;
+  z-index: -1;
 }
 
-.navigationContainer .navigationTitle {
+.titleContainer .title {
   font-size: 1.7em;
-  font-family: 'Ubuntu', sans-serif;
   color: #333;
   font-weight: 400;
 }
 
-.navigationContainer .navigationTitle .covidVirus {
+.titleContainer .title .covidVirus {
   height: 30px;
   width: 30px;
   transform: translateY(5px);
 }
 
-.navigationContainer .themeSwitcher {
+.titleContainer .themeSwitcher {
   position: absolute;
   height: 25px;
   width: 25px;
   right: 20px;
+}
+
+.sliderContainer {
+  width: 90px;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.5s;
+}
+
+.sliderContainer .sidebarContainer {
+  background-color: #ffa1a1;
+  height: inherit;
+  width: 300px;
+  padding: 50px 0px 0px 0px;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  position: absolute;
+}
+
+.sliderContainer .sidebarContainer .title {
+  margin-left: 90px;
+  height: 100px;
+  font-size: 1.4em;
+  color: #222222;
+}
+
+.sliderContainer .sidebarContainer .sidebarItem {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 1.3em;
+}
+
+.sliderContainer .sidebarContainer .sidebarItem .sidebarIcon {
+  height: 50px;
+  width: 50px;
+  margin: 10px 20px;
+}
+
+.sliderContainer:hover {
+  width: 300px;
 }
 /*# sourceMappingURL=style.css.map */

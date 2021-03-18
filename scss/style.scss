@@ -4,9 +4,9 @@
     margin: 0px;
 }
 
-//**********Navigation Start***********//
+//**********Title Bar Start***********//
 
-.navigationContainer {
+.titleContainer {
     height: 60px;
     width: 100vw;
     background-color: rgb(241, 241, 241);
@@ -15,7 +15,7 @@
     justify-content: center;
     position: fixed;
 
-    .navigationTitle {
+    .title {
         font-size: 1.7em;
         font-family: 'Ubuntu', sans-serif;
         color: #333;
@@ -36,7 +36,6 @@
     }
 }
 
-//**********Navigation End***********//
-
+//**********Title Bar End***********//
 
 

@@ -1,1 +1,36 @@
-/* No CSS *//*# sourceMappingURL=style.css.map */
+* {
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+
+.navigationContainer {
+  height: 60px;
+  width: 100vw;
+  background-color: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+}
+
+.navigationContainer .navigationTitle {
+  font-size: 1.7em;
+  font-family: 'Ubuntu', sans-serif;
+  color: #333;
+  font-weight: 400;
+}
+
+.navigationContainer .navigationTitle .covidVirus {
+  height: 30px;
+  width: 30px;
+  transform: translateY(5px);
+}
+
+.navigationContainer .themeSwitcher {
+  position: absolute;
+  height: 25px;
+  width: 25px;
+  right: 20px;
+}
+/*# sourceMappingURL=style.css.map */

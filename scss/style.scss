@@ -15,6 +15,7 @@
     align-items: center;
     justify-content: center;
     position: fixed;
+    z-index: 500;
 
     .title {
         font-size: 1.7em;
@@ -46,6 +47,7 @@
     overflow: hidden;
     position: fixed;
     transition: all 0.5s;
+    z-index: 600;
 
     .sidebarContainer{
         background-color: rgb(255, 161, 161);
@@ -86,14 +88,13 @@
 //**********Side Bar End*************//
 
 //**********Main Body Start**********//
+
 .mainBodyContainer{
-    width: 100vw;
-    height: 100vh;
     // margin:auto;
     padding-top: 60px;
     padding-left: 90px;
     display: grid;
-    grid-template-rows: 300px 400px 400px;
+    grid-template-rows: 300px 550px 600px;
     grid-template-areas:
     // "cards map"
     // "chart map"
@@ -190,17 +191,47 @@
         }
     }
 }
+
 //**********Cards End************//
 
 //**********Map Start**********//
+
 .mapContainer {
-    background-color: #333;
     grid-area: map;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    position: relative;
+    // z-index: -1;
+
+    .locationName {
+        position:absolute;
+        top: 20px;
+        transform: translateX(168px);
+        color: rgb(0, 125, 209);
+        font-size: 1.3em;
+        background-color: rgba(189, 234, 255, 0.555);
+        border-radius: 20px;
+        padding: 2.5px 15px;
+        border: solid 3px rgb(255, 255, 255);
+        box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.3),
+    }
+
+    .indiaMapSvg {
+        height: 500px;
+        .regions {
+            path {
+                fill:rgb(241,247,253);
+            }
+        }
+        
+    }
 }
 
 //**********Map End************//
 
 //**********Chart Start**********//
+
 .chartContainer {
     background-color: rgb(12, 26, 109);
     grid-area: chart;

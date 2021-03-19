@@ -1,0 +1,33 @@
+//**********Title Bar Start***********//
+
+.titleContainer {
+    height: 60px;
+    width: 100vw;
+    background-color: rgb(241, 241, 241);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 500;
+
+    .title {
+        font-size: 1.7em;
+        color: #333;
+        font-weight: 400;
+
+        .covidVirus {
+            height: 30px;
+            width: 30px;
+            transform: translateY(5px);
+        }
+    }
+
+    .themeSwitcher {
+        position : absolute;
+        height: 25px;
+        width: 25px;
+        right: 20px;
+    }
+}
+
+//**********Title Bar End***********//

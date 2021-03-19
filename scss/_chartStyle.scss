@@ -1,0 +1,19 @@
+//**********Chart Start**********//
+
+.chartContainer {
+    grid-area: chart;
+    position: relative;
+    height:400px;
+    width:800px;
+    margin-right: auto;
+    margin-left: auto;
+    
+    .covidChart {
+        background-color:rgb(255, 255, 255);
+        padding:10px;
+        border-radius:10px;
+        box-shadow: 0px 5px 20px 5px rgba(119, 119, 119, 0.3),
+    }
+}
+
+//**********Chart End************//

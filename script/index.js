@@ -61,7 +61,7 @@ const renderCardChange = function (location) {
 
 //**********Fatch all card's data and render********//
 
-const getStateValue = async function () {
+const getStateValue = async function (location) {
 
     let stateLatestData = await (await fetch('https://api.covid19india.org/v4/min/data.min.json')).json()
     allState = stateLatestData;
@@ -71,9 +71,20 @@ const getStateValue = async function () {
     timeseries = timeSeriesData
     renderCardChange("TT")
 
+    // Map hover card's data change effect
+
+    const indiaMapSvg = document.querySelector('.indiaMapSvg');
+    indiaMapSvg.addEventListener('mouseover', function (e) {
+        e.preventDefault()
+        if (e.target.classList.contains('state')) {
+            const id = e.target.getAttribute('href')
+            renderCardValue(id)
+            renderCardChange(id)
+        }
+})
 }
 
-getStateValue();
+getStateValue("KA");
 
 //**********Render the chart********//
 

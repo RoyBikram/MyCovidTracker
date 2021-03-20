@@ -59,51 +59,49 @@ const renderCardChange = function (location) {
 
 }
 
-//**********Fatch all card's data and render********//
-
-const getStateValue = async function (location) {
-
-    let stateLatestData = await (await fetch('https://api.covid19india.org/v4/min/data.min.json')).json()
-    allState = stateLatestData;
-    renderCardValue("TT")
-
-    const timeSeriesData = await (await fetch('https://api.covid19india.org/v4/min/timeseries.min.json')).json()
-    timeseries = timeSeriesData
-    renderCardChange("TT")
-
-    // Map hover card's data change effect
-
-    const indiaMapSvg = document.querySelector('.indiaMapSvg');
-    indiaMapSvg.addEventListener('mouseover', function (e) {
-        e.preventDefault()
-        if (e.target.classList.contains('state')) {
-            const id = e.target.getAttribute('href')
-            renderCardValue(id)
-            renderCardChange(id)
-        }
-})
-}
-
-getStateValue("KA");
-
 //**********Render the chart********//
 
-const renderchart = function () {
+const renderchart = function (location) {
+    const dateList = Object.keys(timeseries[location].dates)
+    const removeLastDate = dateList.pop()
+    let confirmedList = [];
+    let activeList = [];
+    let recoveredList = [];
+    let deathList = [];
+    dateList.forEach(each => {
+        const listPath = timeseries[location].dates[each].total
+        confirmedList.push(listPath.confirmed ?? 0)
+        activeList.push(listPath.confirmed-(listPath.recovered ?? 0+listPath.deceased ?? 0))
+        recoveredList.push(listPath.recovered ?? 0)
+        deathList.push(listPath.deceased ?? 0)
+    })
+
     const covidChartObject = new Chart(covidChart, {
         type: 'line',
         data: {
-            labels: ['First','Second','Thred','Fourth','Fifth'],
+            labels:dateList,
             datasets: [{
-                label: 'Covid',
-                data: [0, 20, 40, 50, 60],
+                label: 'Confirmed',
+                data: confirmedList,
                 fill: 'none',
                 pointBackgroundColor: 'red',
                 pointBorderColor: 'red',
-                borderColor: 'red',
             },{
-                label: 'Bikram',
-                data: [0, 30, 20, 60, 100],
-                fill: 'none'
+                label: 'Active',
+                data: activeList,
+                fill: 'none',
+                pointBackgroundColor: 'blue',
+                pointBorderColor: 'blue',
+            },{
+                label: 'Recovered',
+                data: recoveredList,
+                fill: 'none',
+                pointBackgroundColor: 'green',
+                pointBorderColor: 'green',
+            },{
+                label: 'Death',
+                data: deathList,
+                fill: 'none',
             }
             ]
         },
@@ -121,8 +119,37 @@ const renderchart = function () {
                   }]
             },
             responsive: true,
-            
         }
     });
 }
-renderchart();
+
+//**********Fatch all card's data and render********//
+
+const getStateValue = async function () {
+
+    let stateLatestData = await (await fetch('https://api.covid19india.org/v4/min/data.min.json')).json()
+    allState = stateLatestData;
+    renderCardValue("TT")
+
+    const timeSeriesData = await (await fetch('https://api.covid19india.org/v4/min/timeseries.min.json')).json()
+    timeseries = timeSeriesData
+    renderCardChange("TT")
+    renderchart("TT");
+
+    // Map hover card's data change effect
+    const indiaMapSvg = document.querySelector('.indiaMapSvg');
+    indiaMapSvg.addEventListener('mouseover', function (e) {
+        e.preventDefault()
+        if (e.target.classList.contains('state')) {
+            const id = e.target.getAttribute('href')
+            renderCardValue(id)
+            renderCardChange(id)
+            renderchart(id);
+        }
+    })
+    
+}
+
+getStateValue();
+
+

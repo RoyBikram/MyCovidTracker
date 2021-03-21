@@ -16,6 +16,73 @@ let lastUpdateTime = "";
 let presentDayData = 0;
 let previousDayData = 0;
 
+//*********Chart Object *********/
+
+let covidChartObject = new Chart(covidChart, {
+    type: 'line',
+    data: {
+        labels:[],
+        datasets: [{
+            label: 'Confirmed',
+            data: [],
+            fill: 'none',
+            backgroundColor: 'red',
+            pointRadius: "0",
+            borderColor: "red",
+            borderWidth: "2.5",
+            pointHoverRadius: "3"
+        }
+            , {
+            label: 'Active',
+            data: [],
+            fill: 'none',
+            backgroundColor: 'rgb(0, 168, 255)',
+            pointRadius: 0,
+            borderColor: "rgb(0, 168, 255)",
+            borderWidth: "2.5",
+            pointHoverRadius: "3"
+        },{
+            label: 'Recovered',
+            data: [],
+            fill: 'none',
+                pointRadius: 0,
+            backgroundColor: "green",
+            borderColor: "green",
+            borderWidth: "2.5",
+            pointHoverRadius: "3"
+        },{
+            label: 'Death',
+                data: [],
+            fill: 'none',
+            pointRadius: 0,
+            backgroundColor: "rgb(113, 128, 147)",
+            borderColor: "rgb(113, 128, 147)",
+            borderWidth: "2.5",
+            pointHoverRadius: "3"
+        }
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                gridLines : {
+                    drawOnChartArea: false
+                },
+            }],
+            xAxes: [{
+                gridLines : {
+                    drawOnChartArea: false
+                },
+              }]
+        },
+        responsive: true,
+        animation: {
+            duration: 500,
+            
+        }
+    }
+});
+
 //*******It gives past day date*************//
 //!need to improve the past date function
 
@@ -59,68 +126,34 @@ const renderCardChange = function (location) {
 
 }
 
-//**********Render the chart********//
+//*******Update the chart *******/
 
-const renderchart = function (location) {
+const updateChart = function (location) {
+    covidChartObject.data.labels = [];
+    covidChartObject.data.datasets[0].data = [];
+    covidChartObject.data.datasets[1].data = [];
+    covidChartObject.data.datasets[2].data = [];
+    covidChartObject.data.datasets[3].data = [];
+    const confirmedList = [];
+    const activeList = [];
+    const recoveredList = [];
+    const deathList = [];
     const dateList = Object.keys(timeseries[location].dates)
     const removeLastDate = dateList.pop()
-    let confirmedList = [];
-    let activeList = [];
-    let recoveredList = [];
-    let deathList = [];
+    covidChartObject.data.labels = dateList
     dateList.forEach(each => {
         const listPath = timeseries[location].dates[each].total
         confirmedList.push(listPath.confirmed ?? 0)
         activeList.push(listPath.confirmed-(listPath.recovered ?? 0+listPath.deceased ?? 0))
         recoveredList.push(listPath.recovered ?? 0)
-        deathList.push(listPath.deceased ?? 0)
+        deathList.push(listPath.deceased ?? 0);
     })
-
-    const covidChartObject = new Chart(covidChart, {
-        type: 'line',
-        data: {
-            labels:dateList,
-            datasets: [{
-                label: 'Confirmed',
-                data: confirmedList,
-                fill: 'none',
-                pointBackgroundColor: 'red',
-                pointBorderColor: 'red',
-            },{
-                label: 'Active',
-                data: activeList,
-                fill: 'none',
-                pointBackgroundColor: 'blue',
-                pointBorderColor: 'blue',
-            },{
-                label: 'Recovered',
-                data: recoveredList,
-                fill: 'none',
-                pointBackgroundColor: 'green',
-                pointBorderColor: 'green',
-            },{
-                label: 'Death',
-                data: deathList,
-                fill: 'none',
-            }
-            ]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    gridLines : {
-                        drawOnChartArea: false
-                    },
-                }],
-                xAxes: [{
-                    gridLines : {
-                        drawOnChartArea: false
-                    },
-                  }]
-            },
-            responsive: true,
-        }
-    });
+    covidChartObject.data.datasets[0].data = confirmedList
+    covidChartObject.data.datasets[1].data = activeList
+    covidChartObject.data.datasets[2].data = recoveredList
+    covidChartObject.data.datasets[3].data = deathList
+    covidChartObject.update();
+    
 }
 
 //**********Fatch all card's data and render********//
@@ -134,7 +167,7 @@ const getStateValue = async function () {
     const timeSeriesData = await (await fetch('https://api.covid19india.org/v4/min/timeseries.min.json')).json()
     timeseries = timeSeriesData
     renderCardChange("TT")
-    renderchart("TT");
+    updateChart("TT");
 
     // Map hover card's data change effect
     const indiaMapSvg = document.querySelector('.indiaMapSvg');
@@ -144,7 +177,7 @@ const getStateValue = async function () {
             const id = e.target.getAttribute('href')
             renderCardValue(id)
             renderCardChange(id)
-            renderchart(id);
+            updateChart(id);
         }
     })
     

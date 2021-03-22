@@ -1,7 +1,9 @@
 //**********Title Bar Start***********//
 
 .titleContainer {
-    height: 60px;
+    height: 41px;
+    min-height: 41px;
+    max-height: 60px;
     width: 100vw;
     background-color: rgb(241, 241, 241);
     display: flex;
@@ -11,7 +13,7 @@
     z-index: 500;
 
     .title {
-        font-size: 1.7em;
+        font-size: 1.7rem;
         color: #333;
         font-weight: 400;
 

@@ -1,5 +1,13 @@
+:root {
+  --smallFont:3vw;
+  --mediumFont:3.8vw;
+  --largeFont:4.6vw;
+}
+
 .titleContainer {
-  height: 60px;
+  height: 41px;
+  min-height: 41px;
+  max-height: 60px;
   width: 100vw;
   background-color: #f1f1f1;
   display: flex;
@@ -10,7 +18,7 @@
 }
 
 .titleContainer .title {
-  font-size: 1.7em;
+  font-size: 1.7rem;
   color: #333;
   font-weight: 400;
 }
@@ -29,7 +37,7 @@
 }
 
 .sliderContainer {
-  width: 90px;
+  width: 70px;
   height: 100%;
   overflow: hidden;
   position: fixed;
@@ -64,7 +72,7 @@
 .sliderContainer .sidebarContainer .sidebarItem .sidebarIcon {
   height: 50px;
   width: 50px;
-  margin: 10px 20px;
+  margin: 10px 10px;
 }
 
 .sliderContainer:hover {
@@ -74,22 +82,23 @@
 .cardsContainer {
   grid-area: cards;
   display: flex;
+  width: 100%;
   justify-content: center;
-  align-items: center;
+  margin: 2vw 0;
 }
 
 .cardsContainer .card {
-  height: 200px;
-  width: 140px;
+  width: 22vw;
+  height: 33vw;
+  max-height: 200px;
+  max-width: 130px;
   background-color: #e6e6e6;
-  margin: 0px 15px 0px 15px;
-  border-radius: 10px;
+  margin: 0px 1vw 0px 1vw;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  border: solid 3px white;
-  box-shadow: 0px 5px 20px 5px rgba(119, 119, 119, 0.3);
 }
 
 .cardsContainer .cardConfirmed {
@@ -98,15 +107,15 @@
 }
 
 .cardsContainer .cardConfirmed .title {
-  font-size: 1.2rem;
+  font-size: var(--mediumFont);
 }
 
 .cardsContainer .cardConfirmed .change {
-  font-size: 1rem;
+  font-size: var(--smallFont);
 }
 
 .cardsContainer .cardConfirmed .value {
-  font-size: 1.5rem;
+  font-size: var(--largeFont);
   letter-spacing: -1px;
 }
 
@@ -116,15 +125,15 @@
 }
 
 .cardsContainer .cardActive .title {
-  font-size: 1.2rem;
+  font-size: var(--mediumFont);
 }
 
 .cardsContainer .cardActive .change {
-  font-size: 1rem;
+  font-size: var(--smallFont);
 }
 
 .cardsContainer .cardActive .value {
-  font-size: 1.5rem;
+  font-size: var(--largeFont);
   letter-spacing: -1px;
 }
 
@@ -134,15 +143,15 @@
 }
 
 .cardsContainer .cardRecovered .title {
-  font-size: 1.2rem;
+  font-size: var(--mediumFont);
 }
 
 .cardsContainer .cardRecovered .change {
-  font-size: 1rem;
+  font-size: var(--smallFont);
 }
 
 .cardsContainer .cardRecovered .value {
-  font-size: 1.5rem;
+  font-size: var(--largeFont);
   letter-spacing: -1px;
 }
 
@@ -152,15 +161,15 @@
 }
 
 .cardsContainer .cardDeath .title {
-  font-size: 1.2rem;
+  font-size: var(--mediumFont);
 }
 
 .cardsContainer .cardDeath .change {
-  font-size: 1rem;
+  font-size: var(--smallFont);
 }
 
 .cardsContainer .cardDeath .value {
-  font-size: 1.5rem;
+  font-size: var(--largeFont);
   letter-spacing: -1px;
 }
 
@@ -170,23 +179,15 @@
   justify-content: center;
   align-items: center;
   position: relative;
-}
-
-.mapContainer .locationName {
-  position: absolute;
-  top: 20px;
-  transform: translateX(168px);
-  color: #007dd1;
-  font-size: 1.2rem;
-  background-color: rgba(189, 234, 255, 0.555);
-  border-radius: 20px;
-  padding: 2.5px 15px;
-  border: solid 3px white;
-  box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.3);
+  margin: 20px auto;
+  height: 100%;
+  width: 100%;
 }
 
 .mapContainer .indiaMapSvg {
-  height: 500px;
+  width: 90vw;
+  height: auto;
+  max-width: 500px;
 }
 
 .mapContainer .indiaMapSvg .regions path {
@@ -195,18 +196,98 @@
 
 .chartContainer {
   grid-area: chart;
-  position: relative;
-  height: 400px;
-  width: 800px;
-  margin-right: auto;
-  margin-left: auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .chartContainer .covidChart {
+  max-width: 700px;
+  height: auto !important;
+  width: 90% !important;
   background-color: white;
   padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 5px 20px 5px rgba(119, 119, 119, 0.3);
+  border-radius: 8px;
+  box-shadow: 0px 0px 5px 0px #505050;
+}
+
+@media only screen and (min-width: 1024px) {
+  .mainBodyContainer {
+    margin: 0px auto;
+    padding-left: 70px !important;
+    align-items: center !important;
+    grid-template-columns: 60% 40%;
+    grid-template-areas: "cards map" "chart map" !important;
+  }
+  .mapContainer {
+    justify-content: right;
+  }
+  .mapContainer .indiaMapSvg {
+    width: 37vw;
+    margin-top: 6vw;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  :root {
+    --smallFont: 1.05rem;
+    --mediumFont: 1.2rem;
+    --largeFont: 1.5rem;
+  }
+  .titleContainer {
+    height: 60px;
+  }
+  .mainBodyContainer {
+    padding-top: 60px !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  :root {
+    --smallFont: 1rem;
+    --mediumFont: 1.15rem;
+    --largeFont: 1.45rem;
+  }
+  .titleContainer {
+    height: 50px;
+  }
+  .sliderContainer {
+    width: 1.4vw;
+  }
+  .chartContainer .covidChart {
+    border-radius: 1.3vw;
+  }
+  .cardsContainer .card {
+    border-radius: 1.3vw;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  :root {
+    --smallFont: 3vw;
+    --mediumFont: 3.8vw;
+    --largeFont: 4.6vw;
+  }
+  .titleContainer {
+    height: 41px !important;
+  }
+  .titleContainer .title {
+    font-size: 1.5rem;
+  }
+  .titleContainer .title .covidVirus {
+    height: 25px;
+    width: 25px;
+  }
+  .titleContainer .mainBodyContainer {
+    padding-top: 41px;
+  }
+  .titleContainer .themeSwitcher {
+    height: 20px;
+    width: 20px;
+    right: 20px;
+  }
 }
 
 * {
@@ -218,10 +299,11 @@
 }
 
 .mainBodyContainer {
-  padding-top: 60px;
-  padding-left: 90px;
+  padding-top: 41px;
+  width: 100vw;
   display: grid;
-  grid-template-rows: 300px 550px 600px;
+  justify-items: center;
+  align-items: center;
   grid-template-areas: "cards" "map" "chart";
 }
 /*# sourceMappingURL=style.css.map */

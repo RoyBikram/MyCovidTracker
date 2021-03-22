@@ -3,36 +3,40 @@
 .cardsContainer {
     grid-area: cards;
     display: flex;
+    width: 100%;
     justify-content: center;
-    align-items: center;
+    margin: 2vw 0;
 
     @mixin cardStyle($backgroundColor,$fontColor) {
         background-color: $backgroundColor;
         color: $fontColor;
+
         .title {
-            font-size: $mediumFont;
+            font-size: var(--mediumFont);
         }
+
         .change {
-            font-size: $smallFont;
+            font-size: var(--smallFont);
         }
+        
         .value {
-            font-size: $largeFont;
+            font-size: var(--largeFont);
             letter-spacing: -1px;
         }
     }
 
     .card {
-        height: 200px;
-        width: 140px;
+        width: 22vw;
+        height:33vw;
+        max-height: 200px;
+        max-width: 130px;
         background-color: rgb(230, 230, 230);
-        margin: 0px 15px 0px 15px;
-        border-radius: 10px;
+        margin: 0px 1vw 0px 1vw;
+        border-radius: 8px;
         display: flex;
         flex-direction:column;
         justify-content: space-evenly;
         align-items: center;
-        border: solid 3px rgb(255, 255, 255);
-        box-shadow: 0px 5px 20px 5px rgba(119, 119, 119, 0.3);
     }
 
     .cardConfirmed {

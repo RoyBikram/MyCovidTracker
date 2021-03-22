@@ -1,6 +1,8 @@
-$smallFont:1rem;
-$mediumFont:1.2rem;
-$largeFont:1.5rem;
+:root {
+        --smallFont:3vw;
+        --mediumFont:3.8vw;
+        --largeFont:4.6vw;
+}
 $confirmedRed:#fdd8d8;
 $confirmedFontColor:red;
 $activeBlue:#c0e3ff;

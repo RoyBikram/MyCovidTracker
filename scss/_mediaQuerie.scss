@@ -1,0 +1,95 @@
+//********** Media Query***********//
+
+@media only screen and (min-width: 1024px) {
+  .mainBodyContainer {
+    margin: 0px auto;
+    padding-left: 70px !important;
+    align-items: center !important;
+    grid-template-columns: 60% 40%;
+    grid-template-areas:
+      "cards map"
+      "chart map" !important;
+  }
+
+  .mapContainer {
+    justify-content: right;
+    .indiaMapSvg {
+      width: 37vw;
+      margin-top: 6vw;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  :root {
+    --smallFont: 1.05rem;
+    --mediumFont: 1.2rem;
+    --largeFont: 1.5rem;
+  }
+
+  .titleContainer {
+    height: 60px;
+  }
+
+  .mainBodyContainer {
+    padding-top: 60px !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  :root {
+    --smallFont: 1rem;
+    --mediumFont: 1.15rem;
+    --largeFont: 1.45rem;
+  }
+
+  .titleContainer {
+    height: 50px;
+  }
+
+  .sliderContainer {
+    width: 1.4vw;
+  }
+
+  .chartContainer {
+    .covidChart {
+      border-radius: 1.3vw;
+    }
+  }
+
+  .cardsContainer {
+    .card {
+      border-radius: 1.3vw;
+    }
+  }
+
+}
+
+@media only screen and (max-width: 425px) {
+  :root {
+    --smallFont: 3vw;
+    --mediumFont: 3.8vw;
+    --largeFont: 4.6vw;
+  }
+
+  .titleContainer {
+    height: 41px !important;
+    .title {
+      font-size: 1.5rem;
+      .covidVirus {
+        height: 25px;
+        width: 25px;
+      }
+    }
+
+    .mainBodyContainer {
+      padding-top: 41px;
+    }
+
+    .themeSwitcher {
+      height: 20px;
+      width: 20px;
+      right: 20px;
+    }
+  }
+}

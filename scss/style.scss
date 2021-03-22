@@ -4,6 +4,7 @@
 @import 'cardStyle';
 @import 'mapStyle';
 @import 'chartStyle';
+@import 'mediaQuerie';
 
 * {
     box-sizing: border-box;
@@ -16,14 +17,12 @@
 //**********Main Body Start**********//
 
 .mainBodyContainer{
-    // margin:auto;
-    padding-top: 60px;
-    padding-left: 90px;
+    padding-top: 41px;
+    width:100vw;
     display: grid;
-    grid-template-rows: 300px 550px 600px;
+    justify-items: center;
+    align-items: center;
     grid-template-areas:
-    // "cards map"
-    // "chart map"
     "cards"
     "map"
     "chart"

@@ -110,15 +110,23 @@ const pastDate = function () {
 //***********It render all card's values***********//
 
 const renderCardValue = function (location) {
-
-    presentDayData = allState[location].total
-    // lastUpdatedTime = allState[location].meta.last_updated.slice(0, 10)
-    cardConfirmed.querySelector(".value").textContent =presentDayData.confirmed;
-    cardActive.querySelector(".value").textContent = (presentDayData.confirmed-(presentDayData.recovered+presentDayData.deceased));
-    cardRecovered.querySelector(".value").textContent = presentDayData.recovered;
-    cardDeath.querySelector(".value").textContent = presentDayData.deceased;
-    
-}
+    const duration = 500;
+        presentDayData = allState[location].total;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        cardConfirmed.querySelector(".value").innerHTML = Math.floor(progress*presentDayData.confirmed);
+        cardActive.querySelector(".value").innerHTML = Math.floor(progress * (presentDayData.confirmed-(presentDayData.recovered+presentDayData.deceased)));
+        cardRecovered.querySelector(".value").innerHTML = Math.floor(progress * presentDayData.recovered);
+        cardDeath.querySelector(".value").innerHTML = Math.floor(progress * presentDayData.deceased);
+        if (progress < 1) {
+        window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+    lastUpdatedTime = allState[location].meta.last_updated.slice(0, 10)
+  }
 
 //***********It render all card's Changes***********//
 

@@ -6,6 +6,8 @@ const cardConfirmed = document.querySelector(".cardConfirmed")
 const cardActive = document.querySelector(".cardActive")
 const cardRecovered = document.querySelector(".cardRecovered")
 const cardDeath = document.querySelector(".cardDeath")
+const stateLabel = document.querySelector(".stateLabel")
+const selectedState = document.querySelector(".regions")
 
 //**********Global Variables********//
 
@@ -149,7 +151,7 @@ const renderCardChange = function (location) {
         }
     };
     window.requestAnimationFrame(step);
-    
+
 }
 
 //*******Update the chart *******/
@@ -197,16 +199,30 @@ const getStateValue = async function () {
 
     // Map hover card's data change effect
     const indiaMapSvg = document.querySelector('.indiaMapSvg');
-    indiaMapSvg.addEventListener('mouseover', function (e) {
+    indiaMapSvg.addEventListener('click', function (e) {
         e.preventDefault()
         if (e.target.classList.contains('state')) {
             const id = e.target.getAttribute('href')
+            stateLabel.textContent = e.target.querySelector('title').textContent
+            selectedState.querySelectorAll('path').forEach(state => {
+                state.style.fill = "rgb(241,247,253)"
+            })
+            e.target.style.fill = "rgb(107 189 255)"
             renderCardValue(id)
             renderCardChange(id)
             updateChart(id);
+        } else {
+            if (stateLabel.textContent != "India") {
+                stateLabel.textContent = "India"
+                selectedState.querySelectorAll('path').forEach(state => {
+                state.style.fill = "rgb(241,247,253)"
+                })
+                renderCardValue("TT")
+                renderCardChange("TT")
+                updateChart("TT");
+            }
         }
     })
-    
 }
 
 getStateValue();

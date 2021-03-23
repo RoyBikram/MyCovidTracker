@@ -173,13 +173,22 @@
   letter-spacing: -1px;
 }
 
+.stateLabel {
+  background-color: #c0e3ff;
+  padding: 2px 5px;
+  font-size: var(--mediumFont);
+  border-radius: 5px;
+  color: #474747;
+  margin: 3.5vw 0 4vw 0;
+}
+
 .mapContainer {
   grid-area: map;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
-  margin: 20px auto;
   height: 100%;
   width: 100%;
 }
@@ -221,12 +230,8 @@
     grid-template-columns: 60% 40%;
     grid-template-areas: "cards map" "chart map" !important;
   }
-  .mapContainer {
-    justify-content: right;
-  }
   .mapContainer .indiaMapSvg {
     width: 37vw;
-    margin-top: 6vw;
   }
 }
 

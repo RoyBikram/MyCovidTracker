@@ -132,16 +132,24 @@ const renderCardValue = function (location) {
 
 const renderCardChange = function (location) {
 
+    const duration = 500;
     previousDayData = timeseries[location].dates[`${pastDate()}`].total
-
     //To get active change data
     let activeChange =(presentDayData.confirmed - (presentDayData.recovered + presentDayData.deceased)) - (previousDayData.confirmed - (previousDayData.recovered + previousDayData.deceased))
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        cardConfirmed.querySelector(".change").innerHTML = `+${Math.floor(progress*(presentDayData.confirmed - previousDayData.confirmed))}`;
+        cardActive.querySelector(".change").innerHTML = `${(activeChange >= 0 ? "+" : "-")}${Math.floor(progress * (activeChange))}`;
+        cardRecovered.querySelector(".change").innerHTML = `+${Math.floor(progress*(presentDayData.recovered - previousDayData.recovered))}`;
+        cardDeath.querySelector(".change").innerHTML = `+${Math.floor(progress*(presentDayData.deceased - previousDayData.deceased))}`;
+        if (progress < 1) {
+        window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
     
-    cardConfirmed.querySelector(".change").textContent = `+${(presentDayData.confirmed - previousDayData.confirmed)}`;
-    cardActive.querySelector(".change").textContent = `${(activeChange >= 0 ? "+" : "-")}${activeChange}`;
-    cardRecovered.querySelector(".change").textContent = `+${(presentDayData.recovered - previousDayData.recovered)}`;
-    cardDeath.querySelector(".change").textContent = `+${(presentDayData.deceased - previousDayData.deceased)}`;
-
 }
 
 //*******Update the chart *******/

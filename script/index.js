@@ -63,22 +63,32 @@ let covidChartObject = new Chart(covidChart, {
         ]
     },
     options: {
+        legend: {
+            display: false,
+        },
         scales: {
             yAxes: [{
+                position:"right",
                 gridLines : {
                     drawOnChartArea: false
                 },
+                ticks: {
+                    maxTicksLimit : 5
+                }
             }],
             xAxes: [{
                 gridLines : {
-                    drawOnChartArea: false
+                    drawOnChartArea: false,
+                    drawTicks:false
                 },
+                ticks: {
+                    display: false,
+                }
               }]
         },
         responsive: true,
         animation: {
             duration: 500,
-            
         }
     }
 });

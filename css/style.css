@@ -256,8 +256,12 @@
   .sliderContainer {
     width: 1.4vw;
   }
+  .chartContainer {
+    margin-bottom: 20px;
+  }
   .chartContainer .covidChart {
     border-radius: 1.3vw;
+    padding: 3px;
   }
   .cardsContainer .card {
     border-radius: 1.3vw;

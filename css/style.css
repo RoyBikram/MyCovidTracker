@@ -99,6 +99,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  transition: all 0.5s;
 }
 
 .cardsContainer .cardConfirmed {
@@ -173,6 +174,14 @@
   letter-spacing: -1px;
 }
 
+.active {
+  transform: scale(1.05);
+}
+
+.deactivated {
+  transform: scale(0.95);
+}
+
 .stateLabel {
   background-color: #c0e3ff;
   padding: 2px 5px;
@@ -216,7 +225,7 @@
   max-width: 700px;
   height: auto !important;
   width: 90% !important;
-  background-color: white;
+  background-color: #ffffff;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0px 0px 5px 0px #505050;

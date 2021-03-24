@@ -8,6 +8,9 @@ const cardRecovered = document.querySelector(".cardRecovered")
 const cardDeath = document.querySelector(".cardDeath")
 const stateLabel = document.querySelector(".stateLabel")
 const selectedState = document.querySelector(".regions")
+let selectedStateName = "TT"
+const cardsContainer = document.querySelector(".cardsContainer");
+const allCards = cardsContainer.querySelectorAll('.card')
 
 //**********Global Variables********//
 
@@ -17,6 +20,70 @@ let timeseries = {};
 let lastUpdateTime = "";
 let presentDayData = 0;
 let previousDayData = 0;
+let chartState = "Active";
+
+//*******Add Data to the covidChartObject*********//
+
+const fatchDataset = function (location) {
+    covidChartObject.data.datasets = []
+    const data = {}
+    data.label = chartState;
+    data.data = [];
+    const dateList = Object.keys(timeseries[location].dates)
+    const removeLastDate = dateList.pop()
+    covidChartObject.data.labels = dateList
+    if (chartState == "Active") {
+        dateList.forEach(each => {
+            const listPath = timeseries[location].dates[each].total
+            data.data.push(listPath.confirmed-(listPath.recovered ?? 0+listPath.deceased ?? 0))
+    })
+    } else {
+        dateList.forEach(each => {
+            const listPath = timeseries[location].dates[each].total
+            data.data.push(listPath[(chartState=="Death")?"deceased":chartState.toLowerCase()] ?? 0)
+    })
+    }
+    const cardsValue = cardsContainer.querySelectorAll(".value")
+    let lineColor = null;
+    let backgroundColor = null;
+    switch (chartState) {
+        case "Confirmed": {
+            lineColor = getComputedStyle(cardsValue[0]).color;
+            backgroundColor = getComputedStyle(cardConfirmed).backgroundColor
+            }
+            break;
+        case "Active": {
+            lineColor = getComputedStyle(cardsValue[1]).color;
+            backgroundColor = getComputedStyle(cardActive).backgroundColor
+        }
+            
+            break;
+        case "Recovered": {
+            lineColor = getComputedStyle(cardsValue[2]).color;
+            backgroundColor = getComputedStyle(cardRecovered).backgroundColor
+        }
+            
+            break;
+        case "Death": {
+            lineColor = getComputedStyle(cardsValue[3]).color;
+            backgroundColor = getComputedStyle(cardDeath).backgroundColor
+        }
+            break;
+        default:
+            break;
+    }
+    data.backgroundColor = lineColor
+    data.borderColor = lineColor
+    covidChartObject.options.scales.yAxes[0].gridLines.color = lineColor
+    covidChartObject.options.scales.xAxes[0].gridLines.color = lineColor
+    covidChart.style.backgroundColor = backgroundColor
+    data.fill = "none"
+    data.pointRadius = "0"
+    data.border = "2.5"
+    data.pointHoverRadius = "3"
+    covidChartObject.data.datasets.push(data);
+    covidChartObject.update();
+}
 
 //*********Chart Object *********/
 
@@ -24,45 +91,7 @@ let covidChartObject = new Chart(covidChart, {
     type: 'line',
     data: {
         labels:[],
-        datasets: [{
-            label: 'Confirmed',
-            data: [],
-            fill: 'none',
-            backgroundColor: 'red',
-            pointRadius: "0",
-            borderColor: "red",
-            borderWidth: "2.5",
-            pointHoverRadius: "3"
-        }
-            , {
-            label: 'Active',
-            data: [],
-            fill: 'none',
-            backgroundColor: 'rgb(0, 168, 255)',
-            pointRadius: 0,
-            borderColor: "rgb(0, 168, 255)",
-            borderWidth: "2.5",
-            pointHoverRadius: "3"
-        },{
-            label: 'Recovered',
-            data: [],
-            fill: 'none',
-                pointRadius: 0,
-            backgroundColor: "green",
-            borderColor: "green",
-            borderWidth: "2.5",
-            pointHoverRadius: "3"
-        },{
-            label: 'Death',
-                data: [],
-            fill: 'none',
-            pointRadius: 0,
-            backgroundColor: "rgb(113, 128, 147)",
-            borderColor: "rgb(113, 128, 147)",
-            borderWidth: "2.5",
-            pointHoverRadius: "3"
-        }
-        ]
+        datasets: []
     },
     options: {
         legend: {
@@ -71,7 +100,8 @@ let covidChartObject = new Chart(covidChart, {
         scales: {
             yAxes: [{
                 position:"right",
-                gridLines : {
+                gridLines: {
+                    // color: "red",
                     drawOnChartArea: false
                 },
                 ticks: {
@@ -157,31 +187,33 @@ const renderCardChange = function (location) {
 //*******Update the chart *******/
 
 const updateChart = function (location) {
-    covidChartObject.data.labels = [];
-    covidChartObject.data.datasets[0].data = [];
-    covidChartObject.data.datasets[1].data = [];
-    covidChartObject.data.datasets[2].data = [];
-    covidChartObject.data.datasets[3].data = [];
-    const confirmedList = [];
-    const activeList = [];
-    const recoveredList = [];
-    const deathList = [];
-    const dateList = Object.keys(timeseries[location].dates)
-    const removeLastDate = dateList.pop()
-    covidChartObject.data.labels = dateList
-    dateList.forEach(each => {
-        const listPath = timeseries[location].dates[each].total
-        confirmedList.push(listPath.confirmed ?? 0)
-        activeList.push(listPath.confirmed-(listPath.recovered ?? 0+listPath.deceased ?? 0))
-        recoveredList.push(listPath.recovered ?? 0)
-        deathList.push(listPath.deceased ?? 0);
+    switch (chartState) {
+        case "Confirmed":
+            fatchDataset(location)
+            break;
+        case "Active":
+            fatchDataset(location)
+            break;
+        case "Recovered":
+            fatchDataset(location)
+            break;
+        case "Death":
+            fatchDataset(location)
+            break;
+        default:
+            break;
+    }
+}
+
+//********** Active the cards************/
+
+const activeCard = function (selectedCard) {
+    selectedCard.style.transform = 'scale(1.05)'
+    allCards.forEach(card => {
+        if (card != selectedCard) { card.style.transform = 'scale(0.95)' }
     })
-    covidChartObject.data.datasets[0].data = confirmedList
-    covidChartObject.data.datasets[1].data = activeList
-    covidChartObject.data.datasets[2].data = recoveredList
-    covidChartObject.data.datasets[3].data = deathList
-    covidChartObject.update();
-    
+    chartState = selectedCard.querySelector('.title').textContent
+    updateChart(selectedStateName)
 }
 
 //**********Fatch all card's data and render********//
@@ -190,38 +222,54 @@ const getStateValue = async function () {
 
     let stateLatestData = await (await fetch('https://api.covid19india.org/v4/min/data.min.json')).json()
     allState = stateLatestData;
-    renderCardValue("TT")
+    renderCardValue(selectedStateName)
 
     const timeSeriesData = await (await fetch('https://api.covid19india.org/v4/min/timeseries.min.json')).json()
     timeseries = timeSeriesData
-    renderCardChange("TT")
-    updateChart("TT");
+    renderCardChange(selectedStateName)
+    activeCard(cardActive)
 
     // Map hover card's data change effect
     const indiaMapSvg = document.querySelector('.indiaMapSvg');
     indiaMapSvg.addEventListener('click', function (e) {
         e.preventDefault()
         if (e.target.classList.contains('state')) {
-            const id = e.target.getAttribute('href')
+            selectedStateName = e.target.getAttribute('href')
             stateLabel.textContent = e.target.querySelector('title').textContent
             selectedState.querySelectorAll('path').forEach(state => {
                 state.style.fill = "rgb(241,247,253)"
             })
             e.target.style.fill = "rgb(107 189 255)"
-            renderCardValue(id)
-            renderCardChange(id)
-            updateChart(id);
+            renderCardValue(selectedStateName)
+            renderCardChange(selectedStateName)
+            updateChart(selectedStateName);
         } else {
             if (stateLabel.textContent != "India") {
                 stateLabel.textContent = "India"
+                selectedStateName = "TT"
                 selectedState.querySelectorAll('path').forEach(state => {
                 state.style.fill = "rgb(241,247,253)"
                 })
-                renderCardValue("TT")
-                renderCardChange("TT")
-                updateChart("TT");
+                renderCardValue(selectedStateName)
+                renderCardChange(selectedStateName)
+                updateChart(selectedStateName);
+                
             }
         }
+    })
+
+//**********All the EventListener for cards*********** */
+    cardConfirmed.addEventListener('click', (e) => {
+        activeCard(cardConfirmed)
+    })
+    cardActive.addEventListener('click', (e) => {
+        activeCard(cardActive)
+    })
+    cardRecovered.addEventListener('click', (e) => {
+        activeCard(cardRecovered)
+    })
+    cardDeath.addEventListener('click', (e) => {
+        activeCard(cardDeath)
     })
 }
 

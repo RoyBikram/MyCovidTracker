@@ -22,69 +22,6 @@ let presentDayData = 0;
 let previousDayData = 0;
 let chartState = "Active";
 
-//*******Add Data to the covidChartObject*********//
-
-const fetchDataset = function (location) {
-    covidChartObject.data.datasets = []
-    const data = {}
-    data.label = chartState;
-    data.data = [];
-    const dateList = Object.keys(timeseries[location].dates)
-    const removeLastDate = dateList.pop()
-    covidChartObject.data.labels = dateList
-    if (chartState == "Active") {
-        dateList.forEach(each => {
-            const listPath = timeseries[location].dates[each].total
-            data.data.push(listPath.confirmed-(listPath.recovered ?? 0+listPath.deceased ?? 0))
-    })
-    } else {
-        dateList.forEach(each => {
-            const listPath = timeseries[location].dates[each].total
-            data.data.push(listPath[(chartState=="Death")?"deceased":chartState.toLowerCase()] ?? 0)
-    })
-    }
-    const cardsValue = cardsContainer.querySelectorAll(".value")
-    let lineColor = null;
-    let backgroundColor = null;
-    switch (chartState) {
-        case "Confirmed": {
-            lineColor = getComputedStyle(cardsValue[0]).color;
-            backgroundColor = getComputedStyle(cardConfirmed).backgroundColor
-            }
-            break;
-        case "Active": {
-            lineColor = getComputedStyle(cardsValue[1]).color;
-            backgroundColor = getComputedStyle(cardActive).backgroundColor
-        }
-            
-            break;
-        case "Recovered": {
-            lineColor = getComputedStyle(cardsValue[2]).color;
-            backgroundColor = getComputedStyle(cardRecovered).backgroundColor
-        }
-            
-            break;
-        case "Death": {
-            lineColor = getComputedStyle(cardsValue[3]).color;
-            backgroundColor = getComputedStyle(cardDeath).backgroundColor
-        }
-            break;
-        default:
-            break;
-    }
-    data.backgroundColor = lineColor
-    data.borderColor = lineColor
-    covidChartObject.options.scales.yAxes[0].gridLines.color = lineColor
-    covidChartObject.options.scales.xAxes[0].gridLines.color = lineColor
-    covidChart.style.backgroundColor = backgroundColor
-    data.fill = "none"
-    data.pointRadius = "0"
-    data.border = "2.5"
-    data.pointHoverRadius = "3"
-    covidChartObject.data.datasets.push(data);
-    covidChartObject.update();
-}
-
 //*********Chart Object *********/
 
 let covidChartObject = new Chart(covidChart, {
@@ -101,7 +38,6 @@ let covidChartObject = new Chart(covidChart, {
             yAxes: [{
                 position:"right",
                 gridLines: {
-                    // color: "red",
                     drawOnChartArea: false
                 },
                 ticks: {
@@ -187,32 +123,133 @@ const renderCardChange = function (location) {
 //*******Update the chart *******/
 
 const updateChart = function (location) {
-    switch (chartState) {
-        case "Confirmed":
-            fetchDataset(location)
-            break;
-        case "Active":
-            fetchDataset(location)
-            break;
-        case "Recovered":
-            fetchDataset(location)
-            break;
-        case "Death":
-            fetchDataset(location)
-            break;
-        default:
-            break;
+    covidChartObject.data.datasets = []
+    const dateList = Object.keys(timeseries[location].dates)
+    const removeLastDate = dateList.pop()
+    covidChartObject.data.labels = dateList
+    if (chartState) {
+        const data = {}
+        data.label = chartState;
+        data.data = [];
+        if (chartState == "Active") {
+            dateList.forEach(each => {
+                const listPath = timeseries[location].dates[each].total
+                data.data.push(listPath.confirmed-(listPath.recovered ?? 0+listPath.deceased ?? 0))
+        })
+        } else {
+            dateList.forEach(each => {
+                const listPath = timeseries[location].dates[each].total
+                data.data.push(listPath[(chartState=="Death")?"deceased":chartState.toLowerCase()] ?? 0)
+        })
+        }
+        const cardsValue = cardsContainer.querySelectorAll(".value")
+        let lineColor = null;
+        let backgroundColor = null;
+        switch (chartState) {
+            case "Confirmed": {
+                lineColor = getComputedStyle(cardsValue[0]).color;
+                backgroundColor = getComputedStyle(cardConfirmed).backgroundColor
+                }
+                break;
+            case "Active": {
+                lineColor = getComputedStyle(cardsValue[1]).color;
+                backgroundColor = getComputedStyle(cardActive).backgroundColor
+            }
+                
+                break;
+            case "Recovered": {
+                lineColor = getComputedStyle(cardsValue[2]).color;
+                backgroundColor = getComputedStyle(cardRecovered).backgroundColor
+            }
+                
+                break;
+            case "Death": {
+                lineColor = getComputedStyle(cardsValue[3]).color;
+                backgroundColor = getComputedStyle(cardDeath).backgroundColor
+            }
+                break;
+            default:
+                break;
+        }
+        data.backgroundColor = lineColor
+        data.borderColor = lineColor
+        covidChartObject.options.scales.yAxes[0].gridLines.color = lineColor
+        covidChartObject.options.scales.xAxes[0].gridLines.color = lineColor
+        covidChart.style.backgroundColor = backgroundColor
+        data.fill = "none"
+        data.pointRadius = "0"
+        data.border = "2.5"
+        data.pointHoverRadius = "3"
+        covidChartObject.data.datasets.push(data);
+    } else {
+        covidChartObject.data.datasets = [
+            {
+                fill: 'none',
+                backgroundColor: 'red',
+                pointRadius: "0",
+                borderColor: "red",
+                borderWidth: "2.5",
+                pointHoverRadius: "3"
+            }, {
+                fill: 'none',
+                backgroundColor: 'rgb(0, 137, 216)',
+                pointRadius: 0,
+                borderColor: "rgb(0, 137, 216)",
+                borderWidth: "2.5",
+                pointHoverRadius: "3"
+            }, {
+                fill: 'none',
+                pointRadius: 0,
+                backgroundColor: "rgb(0, 133, 29)",
+                borderColor: "rgb(0, 133, 29)",
+                borderWidth: "2.5",
+                pointHoverRadius: "3"
+            }, {
+                fill: 'none',
+                pointRadius: 0,
+                backgroundColor: "rgb(100, 100, 100)",
+                borderColor: "rgb(100, 100, 100)",
+                borderWidth: "2.5",
+                pointHoverRadius: "3"
+        }];
+        
+        const confirmedList = [];
+        const activeList = [];
+        const recoveredList = [];
+        const deathList = [];
+        dateList.forEach(each => {
+            const listPath = timeseries[location].dates[each].total
+            confirmedList.push(listPath.confirmed ?? 0)
+            activeList.push(listPath.confirmed-(listPath.recovered ?? 0+listPath.deceased ?? 0))
+            recoveredList.push(listPath.recovered ?? 0)
+            deathList.push(listPath.deceased ?? 0);
+        })
+        covidChartObject.data.datasets[0].data = confirmedList
+        covidChartObject.data.datasets[1].data = activeList
+        covidChartObject.data.datasets[2].data = recoveredList
+        covidChartObject.data.datasets[3].data = deathList
+        covidChart.style.backgroundColor = "white"
+        covidChartObject.options.scales.yAxes[0].gridLines.color = "rgb(170, 170, 170)"
+        covidChartObject.options.scales.xAxes[0].gridLines.color = "rgb(170, 170, 170)"
     }
+    covidChartObject.update();
 }
 
 //********** Active the cards************/
 
 const activeCard = function (selectedCard) {
-    selectedCard.style.transform = 'scale(1.05)'
-    allCards.forEach(card => {
-        if (card != selectedCard) { card.style.transform = 'scale(0.95)' }
-    })
-    chartState = selectedCard.querySelector('.title').textContent
+    if (selectedCard.style.transform == 'scale(1.05)') {
+        allCards.forEach(card => {
+            card.style.transform = 'scale(1)'
+        })
+        chartState = null;
+    } else {
+        selectedCard.style.transform = 'scale(1.05)'
+        allCards.forEach(card => {
+            if (card != selectedCard) { card.style.transform = 'scale(0.95)' }
+        })
+        chartState = selectedCard.querySelector('.title').textContent
+    }
     updateChart(selectedStateName)
 }
 

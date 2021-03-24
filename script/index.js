@@ -24,7 +24,7 @@ let chartState = "Active";
 
 //*******Add Data to the covidChartObject*********//
 
-const fatchDataset = function (location) {
+const fetchDataset = function (location) {
     covidChartObject.data.datasets = []
     const data = {}
     data.label = chartState;
@@ -189,16 +189,16 @@ const renderCardChange = function (location) {
 const updateChart = function (location) {
     switch (chartState) {
         case "Confirmed":
-            fatchDataset(location)
+            fetchDataset(location)
             break;
         case "Active":
-            fatchDataset(location)
+            fetchDataset(location)
             break;
         case "Recovered":
-            fatchDataset(location)
+            fetchDataset(location)
             break;
         case "Death":
-            fatchDataset(location)
+            fetchDataset(location)
             break;
         default:
             break;
@@ -216,7 +216,7 @@ const activeCard = function (selectedCard) {
     updateChart(selectedStateName)
 }
 
-//**********Fatch all card's data and render********//
+//**********Fetch all card's data and render********//
 
 const getStateValue = async function () {
 

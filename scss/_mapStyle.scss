@@ -1,13 +1,19 @@
 //**********Map Start**********//
 
-.stateLabel {
+.stateLabelContainer {
     // grid-area: state;
     background-color:$activeBlue;
-    padding: 2px 5px;
+    padding: 5px 5px;
     font-size: var(--mediumFont);
     border-radius: 5px;
     color: rgb(71, 71, 71);
-    margin : 3.5vw 0 4vw 0;
+    margin : 3.8vw 0 4vw 1vw;
+    display: flex;
+    align-items: center;
+}
+.stateLabelIcon {
+    height:17px;
+    margin-right: 5px;
 }
 
 .mapContainer {

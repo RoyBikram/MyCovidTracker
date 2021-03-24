@@ -5,16 +5,22 @@
     margin: 0px auto;
     padding-left: 70px !important;
     align-items: center !important;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 55% 45%;
     grid-template-areas:
       "cards map"
       "chart map" !important;
+  }
+  .mapContainer{
+    align-items: end !important;
   }
 
   .mapContainer {
     .indiaMapSvg {
       width: 37vw;
     }
+  }
+  .stateLabelIcon {
+    height:20px;
   }
 }
 
@@ -55,6 +61,7 @@
       padding: 3px;
     }
     margin-bottom: 20px;
+    margin-top:20px;
   }
 
   .cardsContainer {
@@ -62,7 +69,6 @@
       border-radius: 1.3vw;
     }
   }
-
 }
 
 @media only screen and (max-width: 425px) {
@@ -91,5 +97,11 @@
       width: 20px;
       right: 20px;
     }
+  }
+
+  .stateLabelContainer {
+    align-self: end;
+    margin-left: 3vw;
+    margin-bottom: 5vw;
   }
 }

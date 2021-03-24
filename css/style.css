@@ -174,21 +174,20 @@
   letter-spacing: -1px;
 }
 
-.active {
-  transform: scale(1.05);
-}
-
-.deactivated {
-  transform: scale(0.95);
-}
-
-.stateLabel {
+.stateLabelContainer {
   background-color: #c0e3ff;
-  padding: 2px 5px;
+  padding: 5px 5px;
   font-size: var(--mediumFont);
   border-radius: 5px;
   color: #474747;
-  margin: 3.5vw 0 4vw 0;
+  margin: 3.8vw 0 4vw 1vw;
+  display: flex;
+  align-items: center;
+}
+
+.stateLabelIcon {
+  height: 17px;
+  margin-right: 5px;
 }
 
 .mapContainer {
@@ -225,7 +224,7 @@
   max-width: 700px;
   height: auto !important;
   width: 90% !important;
-  background-color: #ffffff;
+  background-color: white;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0px 0px 5px 0px #505050;
@@ -236,11 +235,17 @@
     margin: 0px auto;
     padding-left: 70px !important;
     align-items: center !important;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 55% 45%;
     grid-template-areas: "cards map" "chart map" !important;
+  }
+  .mapContainer {
+    align-items: end !important;
   }
   .mapContainer .indiaMapSvg {
     width: 37vw;
+  }
+  .stateLabelIcon {
+    height: 20px;
   }
 }
 
@@ -272,6 +277,7 @@
   }
   .chartContainer {
     margin-bottom: 20px;
+    margin-top: 20px;
   }
   .chartContainer .covidChart {
     border-radius: 1.3vw;
@@ -306,6 +312,11 @@
     width: 20px;
     right: 20px;
   }
+  .stateLabelContainer {
+    align-self: end;
+    margin-left: 3vw;
+    margin-bottom: 5vw;
+  }
 }
 
 * {
@@ -318,7 +329,7 @@
 
 .mainBodyContainer {
   padding-top: 41px;
-  width: 100vw;
+  width: 100%;
   display: grid;
   justify-items: center;
   align-items: center;

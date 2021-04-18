@@ -11,6 +11,8 @@ const selectedState = document.querySelector(".regions")
 let selectedStateName = "TT"
 const cardsContainer = document.querySelector(".cardsContainer");
 const allCards = cardsContainer.querySelectorAll('.card')
+const cardsValue = cardsContainer.querySelectorAll(".value")
+const stateBorder = document.querySelector('.state-borders')
 
 //**********Global Variables********//
 
@@ -142,7 +144,6 @@ const updateChart = function (location) {
                 data.data.push(listPath[(chartState=="Death")?"deceased":chartState.toLowerCase()] ?? 0)
         })
         }
-        const cardsValue = cardsContainer.querySelectorAll(".value")
         let lineColor = null;
         let backgroundColor = null;
         switch (chartState) {
@@ -242,6 +243,12 @@ const activeCard = function (selectedCard) {
         allCards.forEach(card => {
             card.style.transform = 'scale(1)'
         })
+        if (selectedStateName == "TT") {
+            selectedState.querySelectorAll('path').forEach(state => {
+                state.style.fill = "rgb(241,247,253)"
+            })
+        }
+        stateBorder.style.stroke = 'rgba(0, 123, 255, 0.25)'
         chartState = null;
     } else {
         selectedCard.style.transform = 'scale(1.05)'
@@ -251,7 +258,106 @@ const activeCard = function (selectedCard) {
         chartState = selectedCard.querySelector('.title').textContent
     }
     updateChart(selectedStateName)
+    if (selectedStateName == "TT") {
+        showDataOnMap()
+    }
 }
+
+const showDataOnMap = function () {
+    const list = []
+    // console.log((chartState)?chartState.toLowerCase():"dece")
+    // allState[each].total[(chartState)?chartState.toLowerCase():"active"]
+    Object.keys(allState).forEach(each => {
+        if (each == "TT")
+            return
+        switch (chartState) {
+            case "Confirmed":
+                list.push(allState[each].total.confirmed)
+                break;
+            case "Recovered":
+                 list.push(allState[each].total[chartState.toLowerCase()])
+                break;
+            case "Active":
+                list.push((allState[each].total.confirmed-(allState[each].total.recovered-allState[each].total.deceased)))
+                break;
+            case "Death":
+                list.push(allState[each].total.deceased)
+                    break;
+            default:
+                break;
+        }
+        
+    })
+    
+    let [max, min]= [Math.max(...list),Math.min(...list)]
+    // min = Math.min(...list)
+    const eachState = document.querySelectorAll('.state')
+    eachState.forEach(each => {
+        const identifier = each.getAttribute('href')
+        let stateValue = null //allState[identifier].total[(chartState)?chartState.toLowerCase():"active"]
+        switch (chartState) {
+            case "Confirmed":
+                each.style.stroke = "none"
+                stateValue = allState[identifier].total.confirmed
+                let rgbValue = Math.floor(90-(((stateValue - min) * 50) / (max - min)))
+                each.style.fill = `hsl(0,100%,${rgbValue}%)`
+                break;
+            case "Active":
+                each.style.stroke = "none"
+                stateValue = (allState[identifier].total.confirmed - (allState[identifier].total.recovered - allState[identifier].total.deceased))
+                let rgbValue1 = Math.floor(90-(((stateValue - min) * 50) / (max - min)))
+                each.style.fill = `hsl(211,100%,${rgbValue1}%)`
+                break;
+            case "Death":
+                each.style.stroke = "none"
+                stateValue = allState[identifier].total.deceased
+                let rgbValue2 =(100 + Math.abs(100 - Math.floor((((stateValue - min) * 100) / (max - min)))))
+                each.style.fill = `rgb(${rgbValue2},${rgbValue2},${rgbValue2})`
+                break;
+            case "Recovered":
+                each.style.stroke = "none"
+                stateValue = allState[identifier].total.recovered
+                let rgbValue3 = Math.floor(90-(((stateValue - min) * 60) / (max - min)))
+                each.style.fill = `hsl(150,70%,${rgbValue3}%)`
+                break;
+            default:
+                break;
+        }
+    });
+    switch (chartState) {
+        case "Confirmed":
+            stateBorder.style.stroke = 'rgb(255 117 117)'
+            break;
+        case "Active":
+            stateBorder.style.stroke = 'rgb(76 175 232)'
+            break;
+        case "Recovered":
+            stateBorder.style.stroke = 'rgb(44 191 76)'
+            break;
+        case "Death":
+            stateBorder.style.stroke = 'rgb(136 136 136)'
+                break;
+        default:
+            break;
+    }
+    
+
+    // const list1 = []
+    // Object.keys(allState).forEach(each => {
+    //     if (each == "TT")
+    //     return
+    //     list1.push(allState[each].total.deceased)
+    // })
+}
+
+
+
+
+
+
+
+
+
 
 //**********Fetch all card's data and render********//
 
@@ -260,11 +366,12 @@ const getStateValue = async function () {
     let stateLatestData = await (await fetch('https://api.covid19india.org/v4/min/data.min.json')).json()
     allState = stateLatestData;
     renderCardValue(selectedStateName)
-
+    // showDataOnMap()
     const timeSeriesData = await (await fetch('https://api.covid19india.org/v4/min/timeseries.min.json')).json()
     timeseries = timeSeriesData
     renderCardChange(selectedStateName)
     activeCard(cardActive)
+    
 
     // Map hover card's data change effect
     const indiaMapSvg = document.querySelector('.indiaMapSvg');
@@ -277,6 +384,7 @@ const getStateValue = async function () {
                 state.style.fill = "rgb(241,247,253)"
             })
             e.target.style.fill = "rgb(107 189 255)"
+            stateBorder.style.stroke = 'rgba(0, 123, 255, 0.25)'
             renderCardValue(selectedStateName)
             renderCardChange(selectedStateName)
             updateChart(selectedStateName);
@@ -287,6 +395,7 @@ const getStateValue = async function () {
                 selectedState.querySelectorAll('path').forEach(state => {
                 state.style.fill = "rgb(241,247,253)"
                 })
+                showDataOnMap()
                 renderCardValue(selectedStateName)
                 renderCardChange(selectedStateName)
                 updateChart(selectedStateName);

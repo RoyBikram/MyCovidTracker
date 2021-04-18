@@ -186,7 +186,8 @@
 }
 
 .stateLabelIcon {
-  height: 17px;
+  max-height: 18px;
+  height: 5vw;
   margin-right: 5px;
 }
 

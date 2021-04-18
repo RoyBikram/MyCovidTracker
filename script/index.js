@@ -64,17 +64,12 @@ let covidChartObject = new Chart(covidChart, {
 });
 
 //*******It gives past day date*************//
-//!need to improve the past date function
 
 const pastDate = function () {
-
-    let today = new Date();
-    let todayArray = [];
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    let yyyy = today.getFullYear();
-    return today = `${yyyy}-${mm}-${String(Number(dd)-1)}`
-    
+    const dateList = Object.keys(timeseries.TT.dates)
+    const previousDay = dateList[dateList.length - 2]
+    console.log(previousDay)
+    return previousDay
 }
 
 //***********It render all card's values***********//
